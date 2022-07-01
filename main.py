@@ -2,7 +2,6 @@ import os
 import json
 
 from pyrogram import Client
-
 from fastapi import FastAPI, Request
 
 
