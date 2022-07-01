@@ -15,13 +15,13 @@ async def clientbot(token):
         ':memory:',
         api_id=API_ID,
         api_hash=API_HASH,
-        bot_token=tokem
+        bot_token=token
     )
     await bot.start()
     return bot
 
 @app.get('/sendmessage')
 async def send_message(token, log, msg):
-    bot = await clientbot(TOKEN)
+    bot = await clientbot(token)
     await bot.send_message(log, f"{msg}")
     return {'message': "Done 👍"}
