@@ -1,11 +1,12 @@
-from fastapi import FastAPI, Request
-from pyrogram import *
+import os
 import json
-import os 
+
+from pyrogram import *
+
+from fastapi import FastAPI, Request
 
 
 app = FastAPI()
-
 
 API_ID = os.environ.get("API_ID", None) 
 API_HASH = os.environ.get("API_HASH", None)
@@ -15,13 +16,16 @@ async def clientbot(token):
         ':memory:',
         api_id=API_ID,
         api_hash=API_HASH,
-        bot_token=tokem
+        bot_token=token
     )
     await bot.start()
     return bot
 
 @app.get('/sendmessage')
 async def send_message(token, log, msg):
-    bot = await clientbot(TOKEN)
-    await bot.send_message(log, f"{msg}")
-    return {'message': "Done 👍"}
+    bot = await clientbot(token)
+    try:
+        await bot.send_message(chat_id=int(log), text=f"{msg}")
+        return {'message': "Done 👍"}
+    except Exception as e:
+        return {'error': f"{e}"}
